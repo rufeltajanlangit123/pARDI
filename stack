@@ -1,0 +1,107 @@
+import java.util.Scanner;
+
+public class Stack {
+
+    static Scanner sc = new Scanner(System.in);
+    static NameStack stack = new NameStack(50);
+
+    public static void main(String[] args) {
+        int choice;
+
+        do {
+            System.out.println("\n--- Name Stack Menu ---");
+            System.out.println("1.   (Push)");
+            System.out.println("2.  (Pop)");
+            System.out.println("3. (Peek)");
+            System.out.println("4. Show all names");
+            System.out.println("5. Exit");
+            System.out.print("Enter your choice: ");
+            choice = sc.nextInt();
+            sc.nextLine(); 
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter the name to add: ");
+                    String name = sc.nextLine();
+                    stack.push(name);
+                    System.out.println(name + " has been added to the stack.");
+                    stack.show();  
+                    break;
+
+                case 2:
+                    String removed = stack.pop();
+                    if (removed.equals("Empty")) {
+                        System.out.println("The stack is empty");
+                    } else {
+                        System.out.println(removed + " has been removed from the stack.");
+                    }
+                    break;
+
+                case 3:
+                    String top = stack.peek();
+                    if (top.equals("Empty")) {
+                        System.out.println("The stack is empty.");
+                    } else {
+                        System.out.println("The top name is: " + top);
+                    }
+                    break;
+
+                case 4:
+                    stack.show();
+                    break;
+
+                case 5:
+                    System.out.println("Exiting program. Goodbye!");
+                    break;
+
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+
+        } while (choice != 5);
+    }
+}
+
+class NameStack {
+    String[] items;
+    int top;
+
+    NameStack(int size) {
+        items = new String[size];
+        top = -1;
+    }
+
+    void push(String name) {
+        if (top == items.length - 1) {
+            System.out.println("Stack is full. Cannot add more names.");
+            return;
+        }
+        items[++top] = name;
+    }
+
+    String pop() {
+        if (top == -1) return "Empty";
+        return items[top--];
+    }
+
+    String peek() {
+        if (top == -1) return "Empty";
+        return items[top];
+    }
+
+    void show() {
+        if (top == -1) {
+            System.out.println("The stack is empty.");
+            return;
+        }
+
+        System.out.println("Current names in the stack (top to bottom):");
+        for (int i = top; i >= 0; i--) {
+            if (i == top) {
+                System.out.println("TOP -> " + items[i]);
+            } else {
+                System.out.println("       " + items[i]);
+            }
+        }
+    }
+}
